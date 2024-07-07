@@ -19,12 +19,12 @@ class singlyList
 {
     public:
           Node* head;
-          Node* tail;
+          //Node* tail;
 
     singlyList()
     {
         head = NULL;
-        tail = NULL;
+       // tail = NULL;
     }
 
     //add new Node
@@ -36,64 +36,82 @@ class singlyList
         if(head == NULL)
         {
             head = newNode;
-            tail = newNode;
+            //tail = newNode;
         }else {
-            tail->next = newNode;
-            tail = newNode;
+           Node* tmp = head;
+           while(tmp->next != NULL)
+           {
+            tmp = tmp->next;
+           }
+           tmp->next = newNode;
         }
 
     }
 
     //remove double
-    void remove_deplicate()
+    void remove_duplicate()
     {
-        Node* cur = head;
-        Node* index = NULL;
-        Node * tmp = NULL;
+         //Use condition
+       if(head == NULL) return; 
 
-        //Use condition
-
-        if(head == NULL)
-        {
-            return;
-        }else {
-            while(cur != NULL){
-                tmp = cur;
-                index = cur->next;
-
-
-                while(index != NULL)
-                {
-                    if(cur->val == index->val)
-                    {
-                        tmp->next = index->next;
-                    }else {
-                        tmp = index;
-                    }
-                    index = index->next;
-                }
-                cur = cur->next;
+       Node* cur = head;
+       while (cur != NULL)
+       {
+        Node* run =cur;
+          while(run->next != NULL)
+          {
+            if(run->next->val == cur->val)
+            {
+                Node* duplicate = run->next;
+                run->next = run->next->next;
+                delete duplicate;
+            }else{
+                run = run->next;
             }
+          }
+          cur = cur->next;
+       }
+       
+       }
+
+
+    //show vector
+    void sort_list()
+    {
+        if(head == NULL) return;
+
+        std::vector<int> data;
+        Node* cur = head;
+
+        while(cur != NULL)
+        {
+            data.push_back(cur->val);
+            cur = cur->next;
         }
+
+        std::sort(data.begin(), data.end());
+
+        cur = head;
+        for (int val : data)
+        {
+            cur->val = val;
+            cur = cur->next;
+        }
+        
     }
 
-
-    //show
 
     void show()
     {
         Node* cur = head;
-        if(head == NULL)
-        {
-            cout <<"List empty"<<endl;
-            return;
-        }
+       
         while(cur != NULL)
         {
-            cout<< cur->val <<" ";
-            cur = cur->next;
+          std::cout << cur->val <<" ";
+          cur = cur->next;
         }
-        cout <<endl;
+
+        std::cout <<std::endl;
     }
 };
 
@@ -101,11 +119,16 @@ class singlyList
 int main(){
 
     singlyList list;
-    list.addNode(val);
+   int val;
 
-    list.show();
-    list.remove_deplicate();
-    list.show();
+  while(std::cin>> val && val != -1)
+  {
+    list.addNode(val);
+  }
+
+  list.remove_duplicate();
+  list.sort_list();
+  list.show();
 
     return 0;
 }
