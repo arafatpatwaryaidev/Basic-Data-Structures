@@ -41,5 +41,8 @@
         "yml",
         "COBOL",
         "ACUCOBOL"
-    ]
+    ],
+    "files.associations": {
+        "ostream": "cpp"
+    }
 }
